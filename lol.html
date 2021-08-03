@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<div id="res"></div>
+	<!-- <div>lol</div>
+	<button onclick="dim()">delete</button>
+	
+	<div>lool</div>
+	<button onclick="dim()">delete</button>
+
+	<div>lag</div>
+	<button onclick="dim()">delete</button> -->
+
+	<script type="text/javascript">
+		let p = ["lol", "lolasdffs", "losafl", "lolfds", "lolo", "lo0l",]
+		for(let i = 0; i < 9; i++){
+			res.innerHTML += `<p>${p[i]}</p><br/><button onclick="dele(${i})">delete</button>`;
+		}
+		console.log(p)
+
+		const dele = (j) =>{
+			// res.innerHTML = "";
+			console.log(p.filter((a, i) => i != j));
+			// res.innerHTML += p.map((c)=> `<p>${p[c]}</p><br/><button onclick="dele(${c})">delete</button>`)
+		}
+	</script>
+</body>
+</html>
