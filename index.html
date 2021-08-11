@@ -5,59 +5,74 @@
 	<title>Voucher</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" href="../bootstrap-4.6.0-dist/css/bootstrap.css"> -->
 
 </head>
 <body>
-	<input type="number" id="number" placeholder="Number of Cards">
-	<select id="network">
-		<option>MTN</option>
-		<option>Airtel</option>
-		<option>Glo</option>
-		<option>9mobile</option>
-	</select>
-	<select id="amount">
-		<option>100</option>
-		<option>200</option>
-		<option>500</option>
-		<option>1000</option>
-	</select> <br>
-	<input type="button" class="btn btn-generate" onclick="generateCard(number.value, network.value, amount.value)" value="Generate Card">
-	<div id="showCard"></div>
-	<!-- <input type="button" onclick="load()" value="load card"> -->
-	<img src="icons8_Phone.ico" onclick="load()">
-	<!-- <div id="showControls"> -->
-	<!-- </div> -->
 
-	<section id="showControls">
-		<input type="" id="res" autocomplete="off">
-		<img src="icons8_Cancel.ico" onclick="delNum(res.value)">
-		<!-- <button onclick="delNum(res.value)">delete</button> -->
-		<div>
-			<button class='btn' onclick="writeNum(1)">1</button>
-			<button class='btn' onclick="writeNum(2)">2</button>
-			<button class='btn' onclick="writeNum(3)">3</button>
+	<section id="phoneBody" ondblclick="wake()">
+		<div id="powerButton" onclick="wake()"></div>
+		<section id="awake">
+			<p id="times"></p>
+			<div id="voucherGen" onclick="voucherFunc()"></div>
+			<div id="phoneBook" onclick="load()"></div>
+			<section id="showVoucher">
+				<input type="number" id="number" class="nums" placeholder="Number of Cards"> <br>
+				<select id="network" class="nums"> <br>
+					<option>MTN</option>
+					<option>Airtel</option>
+					<option>Glo</option>
+					<option>9mobile</option>
+				</select>
+				<select id="amount" class="nums">
+					<option>100</option>
+					<option>200</option>
+					<option>500</option>
+					<option>1000</option>
+				</select> <br>
+				<input type="button" class="btn nums" onclick="generateCard(number.value, network.value, amount.value)" value="Generate Card">
+				<div id="showCard"></div>
+				<!-- <input type="button" onclick="load()" value="load card"> -->
+				<!-- <img src="icons8_Phone.ico" onclick="load()"> -->
+				<!-- <div id="showControls">
+				</div> -->
+			</section>
+			<section id="showControls">
+				<section id="allControls">
+						<input type="" id="res" autocomplete="off">
+					<img src="icons8_Cancel.ico" onclick="delNum(res.value)">
+					<!-- <button onclick="delNum(res.value)">delete</button> -->
+					<div>
+						<button class='btn' onclick="writeNum(1)">1</button>
+						<button class='btn' onclick="writeNum(2)">2</button>
+						<button class='btn' onclick="writeNum(3)">3</button>
+					</div>
+					<div>
+						<button class='btn' onclick="writeNum(4)">4</button>
+						<button class='btn' onclick="writeNum(5)">5</button>
+						<button class='btn' onclick="writeNum(6)">6</button>
+					</div>
+					<div>
+						<button class='btn' onclick="writeNum(7)">7</button>
+						<button class='btn' onclick="writeNum(8)">8</button>
+						<button class='btn' onclick="writeNum(9)">9</button>
+					</div>
+					<div>
+						<button class='btn' onclick="writeNum('*')">*</button>
+						<button class='btn' onclick="writeNum(0)">0</button>
+						<button class='btn' onclick="writeNum('#')">#</button>
+					</div>
+					<img class="changeCursor" src="icons8_Phone.ico" onclick="selectNetwork(res.value)">
+					<!-- <button onclick="selectNetwork(res.value)">send</button> -->
+				</section>
+			</section>
+			<div id="disNet"></div>
+		</section>
+		<div id="btns">
+			<img id="backBtn" onclick="backs()" src="./backBtn.ico" alt="back">
 		</div>
-		<div>
-			<button class='btn' onclick="writeNum(4)">4</button>
-			<button class='btn' onclick="writeNum(5)">5</button>
-			<button class='btn' onclick="writeNum(6)">6</button>
-		</div>
-		<div>
-			<button class='btn' onclick="writeNum(7)">7</button>
-			<button class='btn' onclick="writeNum(8)">8</button>
-			<button class='btn' onclick="writeNum(9)">9</button>
-		</div>
-		<div>
-			<button class='btn' onclick="writeNum('*')">*</button>
-			<button class='btn' onclick="writeNum(0)">0</button>
-			<button class='btn' onclick="writeNum('#')">#</button>
-		</div>
-		<img class="changeCursor" src="icons8_Phone.ico" onclick="selectNetwork(res.value)">
-		<!-- <button onclick="selectNetwork(res.value)">send</button> -->
 	</section>
-	<div id="disNet">
-		
-	</div>
+	
 	<div id="showAlerts">
 		<!-- sdjks -->
 	</div>

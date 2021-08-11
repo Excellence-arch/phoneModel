@@ -1,5 +1,6 @@
 let allVouchers;
 let userss;
+let on = false;
 localStorage.allVouchers? allVouchers = JSON.parse(localStorage.allVouchers) : allVouchers = [];
 localStorage.userss ? userss = JSON.parse(localStorage.userss) : userss = 
 {
@@ -10,6 +11,43 @@ localStorage.userss ? userss = JSON.parse(localStorage.userss) : userss =
 		mobileBal : 0
 	}
 };
+
+const wake = () => {
+	if (!on) {
+		home();
+		on = true;
+	} else {
+		phoneBody.style.backgroundImage = `url("")`;
+		phoneBody.style.backgroundColor = `rgba(0, 0, 0, .7)`;
+		awake.style.display = `none`;
+		btns.style.display = `none`;
+		on = false;
+	}
+	
+}
+
+const timer = () => {
+	let newDate = new Date;
+	let hr = newDate.getHours();
+	let min = newDate.getMinutes();
+	let sec = newDate.getSeconds();
+	times.innerHTML = `${hr} : ${min} : ${sec}`
+}
+
+// timer()
+
+const home = () => {
+	phoneBody.style.backgroundImage = `url("./wallpaper.jpg")`;
+	awake.style.display = `block`;
+	btns.style.display = `block`;
+	showVoucher.style.display = 'none';
+	showControls.style.display = 'none';
+	setInterval(timer, 1000)
+}
+
+const voucherFunc = () => {
+	showVoucher.style.display = `block`;
+}
 
 // const alert = message => {
 // 	alerts.style.display = 'block';
@@ -53,6 +91,7 @@ const genRand = () =>{
 }
 
 const load = () => {
+	// alert("hi")
 	showControls.style.display = 'block';
 }
 
@@ -76,18 +115,20 @@ let networks = [{name : 'MTN', pin: '*555*', alias: 'mtnBal'},
 
 let nos = ['090', '080', "070", '081']
 const selectNetwork = (card) => {
-	// displayNetwork.style.display = 'block';
-	disNet.innerHTML = "";
+	disNet.style.display = 'block';
+	// disNet.innerHTML = "";
+	disNet.innerHTML = `<div id="realNetworks">`;
 	for(let i = 0; i < networks.length; i++) {
 		console.log(networks[i].name)
-		disNet.innerHTML += `<a onclick="loadCard(${i})" id="nets">${networks[i].name}</a> <br/>`
+		realNetworks.innerHTML += `<a onclick="loadCard(${i})" id="nets" class="changeCursor">${networks[i].name}</a> <br/>`
 	}
-	
+	disNet.innerHTML += `</div>`
 }
 
 const loadCard = (selected) => {
 	let card = res.value;
-	let k = networks[selected]
+	let k = networks[selected];
+	disNet.style.display = 'none';
 	
 
 	if (card.length == 11) {
@@ -100,8 +141,6 @@ const loadCard = (selected) => {
 		checkBal(card);
 		return 0;
 	}
-
-
 }
 
 const addBal = (net, amounts) => {
@@ -150,4 +189,8 @@ const loads = (card, k) => {
 	theCard.loaded = true;
 	localStorage.allVouchers = JSON.stringify(allVouchers);
 	localStorage.userss = JSON.stringify(userss)
+}
+
+const backs = () => {
+	home();	
 }
