@@ -18,7 +18,7 @@ const wake = () => {
 		on = true;
 	} else {
 		phoneBody.style.backgroundImage = `url("")`;
-		phoneBody.style.backgroundColor = `rgba(0, 0, 0, .7)`;
+		phoneBody.style.backgroundColor = `rgba(16, 15, 15, 0.967)`;
 		awake.style.display = `none`;
 		btns.style.display = `none`;
 		on = false;
@@ -37,7 +37,7 @@ const timer = () => {
 // timer()
 
 const home = () => {
-	phoneBody.style.backgroundImage = `url("./wallpaper.jpg")`;
+	phoneBody.style.backgroundImage = `url("./Assets/wallpaper.jpg")`;
 	awake.style.display = `block`;
 	btns.style.display = `block`;
 	showVoucher.style.display = 'none';
@@ -108,10 +108,10 @@ const delNum = (num) =>{
 // 	let mtn = '*555*'
 // }
 
-let networks = [{name : 'MTN', pin: '*555*', alias: 'mtnBal'}, 
-				{name: 'Airtel', pin: '*126*', alias: 'airtelBal'}, 
-				{name: 'Glo', pin: '*123*', alias: 'gloBal'}, 
-				{name: '9mobile', pin: '*222*', alias: 'mobileBal'}];
+let networks = [{name : 'MTN', pin: '*555*', alias: 'mtnBal', balCheck: '*556#'}, 
+				{name: 'Airtel', pin: '*126*', alias: 'airtelBal', balCheck: '*123#'}, 
+				{name: 'Glo', pin: '*123*', alias: 'gloBal', balCheck: '*124#'},
+				{name: '9mobile', pin: '*222*', alias: 'mobileBal', balCheck: '*232#'}];
 
 let nos = ['090', '080', "070", '081']
 const selectNetwork = (card) => {
@@ -119,7 +119,7 @@ const selectNetwork = (card) => {
 	// disNet.innerHTML = "";
 	disNet.innerHTML = `<div id="realNetworks">`;
 	for(let i = 0; i < networks.length; i++) {
-		console.log(networks[i].name)
+		// console.log(networks[i].name)
 		realNetworks.innerHTML += `<a onclick="loadCard(${i})" id="nets" class="changeCursor">${networks[i].name}</a> <br/>`
 	}
 	disNet.innerHTML += `</div>`
@@ -128,8 +128,7 @@ const selectNetwork = (card) => {
 const loadCard = (selected) => {
 	let card = res.value;
 	let k = networks[selected];
-	disNet.style.display = 'none';
-	
+	disNet.style.display = 'none';	
 
 	if (card.length == 11) {
 		call(card, k);
@@ -138,8 +137,16 @@ const loadCard = (selected) => {
 		loads(card, k);
 		return 0;
 	} else if (card.length == 5) {
-		checkBal(card);
+		checkBal(card, k);
 		return 0;
+	}
+}
+
+const checkBal = (card, k) => {
+	for(let i = 0; i< networks.length; i++) {
+		if(k.balCheck == networks[i].balCheck && card == k.balCheck) {
+			alert(`Your ${k.name} account balance is ${userss.balance[k.alias]}`)
+		}
 	}
 }
 
@@ -150,15 +157,84 @@ const addBal = (net, amounts) => {
 	return userss.balance[net]
 }
 
+let s = 0;
+let m = 0;
+let h = 0;
+const deductMoney = (balance) => {
+	if(balance > 0) {
+		balance -= 0.7
+		s++;
+		if(s <= 59) {
+			if(s < 10) {
+				sec.innerHTML = `0${s}`;
+			} else {
+				sec.innerHTML = s;
+			}
+		} else if(m< 60 && s > 59) {
+			s = 0;
+			m++;
+			if(m < 10) {
+				min.innerHTML = `0${m} : `;
+			} else {
+				min.innerHTML = `${m}: `;
+			}
+		} else if (min > 59) {
+			m = 0;
+			h++;
+			if(h < 10) {
+				hr.innerHTML = `0${h}: `;
+			} else {
+				hr.innerHTML = `${h} : `;
+			}
+		}
+	}else {
+		alert("Your account balance is too low and your call terminated. Please load and try again")
+	}
+	
+}
+
+const deduct = (balance) => {
+	setInterval(`deductMoney(${balance})`, 1000)
+}
+
 const call = (numbers, net) => {
+	let phoneFound = false;
+	let ind = net.name;
 	let p = net.alias
-	console.log(p)
-	console.log(userss.balance);
-	for(let i = 0; i < networks.length; i++) {
-		if(networks[i].alias == net.alias) {
-			console.log('HI')
+	for(let i = 0; i< nos.length; i++) {
+		if (nos[i] == numbers.slice(0, 3)){
+			allowCall(p, ind, numbers);
+			return;
 		}
 	}
+
+	if(!phoneFound) {
+		alert("The number you are trying to call does not exist. Please check the number and try again")
+	}
+}
+
+const allowCall = (p, netName, dialledNum) => {
+	let enoughBal = false;
+	for(let i = 0; i < networks.length; i++) {
+		if(networks[i].alias == p && userss.balance[p] > 1) {
+			enoughBal = true;
+			callInterface.style.display = 'block';
+			callSim.innerHTML = `${netName} ${dialledNum}`
+			h=0;
+			m=0;
+			s=0;
+			deduct(userss.balance[p]);
+		}
+	}
+
+	if(!enoughBal) {
+		alert("Dear, customer, your account balance is too low to make this call. Please reacharge and try again.")
+	}
+}
+
+const dropCall = () => {
+	clearInterval(deductMoney);
+	console.log('cleared the interval')
 }
 
 const loads = (card, k) => {

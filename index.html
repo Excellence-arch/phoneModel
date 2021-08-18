@@ -15,7 +15,7 @@
 		<section id="awake">
 			<p id="times"></p>
 			<div id="voucherGen" onclick="voucherFunc()"></div>
-			<div id="phoneBook" onclick="load()"></div>
+			<div id="phoneBook" onclick="load()"><img src="./Assets/phone.png" alt="Call"></div>
 			<section id="showVoucher">
 				<input type="number" id="number" class="nums" placeholder="Number of Cards"> <br>
 				<select id="network" class="nums"> <br>
@@ -40,7 +40,7 @@
 			<section id="showControls">
 				<section id="allControls">
 						<input type="" id="res" autocomplete="off">
-					<img src="icons8_Cancel.ico" onclick="delNum(res.value)">
+					<img src="./Assets/backspace.png" id="backSpace" onclick="delNum(res.value)">
 					<!-- <button onclick="delNum(res.value)">delete</button> -->
 					<div>
 						<button class='btn' onclick="writeNum(1)">1</button>
@@ -62,14 +62,21 @@
 						<button class='btn' onclick="writeNum(0)">0</button>
 						<button class='btn' onclick="writeNum('#')">#</button>
 					</div>
-					<img class="changeCursor" src="icons8_Phone.ico" onclick="selectNetwork(res.value)">
+					<div class="callRound"><img class="changeCursor" src="./Assets/phone.png" onclick="selectNetwork(res.value)"></div>
 					<!-- <button onclick="selectNetwork(res.value)">send</button> -->
+				</section>
+				<section id="callInterface">
+					<p id="userPix"><img src="./Assets/maleuser.png" alt=""></p>
+					<p id="callSim"></p>
+					<div id="displayCounter"><span id="hr">00 : </span><span id="min">00 : </span><span id="sec">00</span></div>
+					<div id="allOtherDetails"></div>
+					<p id="disconnectCall" onclick="dropCall()"><img src="./Assets/phone.png" alt="disconnect"></p>
 				</section>
 			</section>
 			<div id="disNet"></div>
 		</section>
 		<div id="btns">
-			<img id="backBtn" onclick="backs()" src="./backBtn.ico" alt="back">
+			<img id="backBtn" onclick="backs()" src="./Assets/backBtn.ico" alt="back">
 		</div>
 	</section>
 	
