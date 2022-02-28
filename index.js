@@ -160,41 +160,54 @@ const addBal = (net, amounts) => {
 let s = 0;
 let m = 0;
 let h = 0;
-const deductMoney = (balance) => {
-	if(balance > 0) {
-		balance -= 0.7
-		s++;
-		if(s <= 59) {
-			if(s < 10) {
-				sec.innerHTML = `0${s}`;
-			} else {
-				sec.innerHTML = s;
+
+
+let countClock;
+
+const callCountClock = (balance) => {
+	countClock = setInterval( () => {
+		if(balance > 0) {
+			s++;
+			if(s <= 59) {
+				if(s < 10) {
+					sec.innerHTML = `0${s}`;
+				} else {
+					sec.innerHTML = s;
+				}
+			} else if(m< 60 && s > 59) {
+				s = 0;
+				m++;
+				if(m < 10) {
+					min.innerHTML = `0${m} : `;
+				} else {
+					min.innerHTML = `${m}: `;
+				}
+			} else if (min > 59) {
+				m = 0;
+				h++;
+				if(h < 10) {
+					hr.innerHTML = `0${h}: `;
+				} else {
+					hr.innerHTML = `${h} : `;
+				}
 			}
-		} else if(m< 60 && s > 59) {
-			s = 0;
-			m++;
-			if(m < 10) {
-				min.innerHTML = `0${m} : `;
-			} else {
-				min.innerHTML = `${m}: `;
-			}
-		} else if (min > 59) {
-			m = 0;
-			h++;
-			if(h < 10) {
-				hr.innerHTML = `0${h}: `;
-			} else {
-				hr.innerHTML = `${h} : `;
-			}
+		}else {
+			console.log("HI")
+			// alert("Your account balance is too low and your call terminated. Please load and try again")
 		}
-	}else {
-		alert("Your account balance is too low and your call terminated. Please load and try again")
-	}
-	
+		
+	}, 1000)
+	// setInterval(`countClock(${balance})`, 1000)
 }
 
-const deduct = (balance) => {
-	setInterval(`deductMoney(${balance})`, 1000)
+const rejectsCall = () => {
+	return 0
+}
+
+const realCall = (balance) => {
+	picksTheCall.style.display = `block`;
+	console.log(balance);
+	callCountClock(balance);
 }
 
 const call = (numbers, net) => {
@@ -203,6 +216,9 @@ const call = (numbers, net) => {
 	let p = net.alias
 	for(let i = 0; i< nos.length; i++) {
 		if (nos[i] == numbers.slice(0, 3)){
+			h=0;
+			m=0;
+			s=0;
 			allowCall(p, ind, numbers);
 			return;
 		}
@@ -212,6 +228,7 @@ const call = (numbers, net) => {
 		alert("The number you are trying to call does not exist. Please check the number and try again")
 	}
 }
+let aliass, netNames, balances;
 
 const allowCall = (p, netName, dialledNum) => {
 	let enoughBal = false;
@@ -219,22 +236,43 @@ const allowCall = (p, netName, dialledNum) => {
 		if(networks[i].alias == p && userss.balance[p] > 1) {
 			enoughBal = true;
 			callInterface.style.display = 'block';
-			callSim.innerHTML = `${netName} ${dialledNum}`
-			h=0;
-			m=0;
-			s=0;
-			deduct(userss.balance[p]);
+			callSim.innerHTML = `${netName} ${dialledNum}`;
+			// realCall(userss.balance[p]);
+			aliass = p;
+			netNames = netName;
+			balances = userss.balance;
+			phoneBody2.style.display = 'block';
+			testPick.innerHTML = `<p id="pickCall" onclick="realCall(${userss.balance[p]})"><img class="callImg" src="./Assets/phone.png" alt="connect"></p>`
 		}
 	}
-
+	
 	if(!enoughBal) {
-		alert("Dear, customer, your account balance is too low to make this call. Please reacharge and try again.")
+		alert("Dear, customer, your account balance is too low to make this call. Please recharge and try again.");
+		res.value = "";
 	}
 }
 
+
 const dropCall = () => {
-	clearInterval(deductMoney);
-	console.log('cleared the interval')
+	callInterface.style.display = `none`;
+	clearInterval(countClock);
+	phoneBody2.style.display = `none`;
+	removeMoney();
+}
+
+const removeMoney = () => {
+	s = s * 0.7;
+	m = m * 60 * 0.7;
+	h = h * 60 * 60 * 0.7;
+	console.log(balances)
+	let totalCallCount = s + m + h;
+	balances = balances[aliass] - totalCallCount;
+	console.log(balances);
+	userss.balance[aliass] = balances;
+	localStorage.userss = JSON.stringify(userss);
+	h=0;
+	m=0;
+	s=0;
 }
 
 const loads = (card, k) => {
@@ -254,15 +292,18 @@ const loads = (card, k) => {
 			userss.balance[bal] += balances;
 		} else if(allVouchers[i].number == loadedCard && allCheck && allVouchers[i].loaded){
 			alert("This card has already been loaded by you");
+			res.value = "";
 			return 0;
 		}
 	}
 	if (!found) {
-		alert("Please load a valid card")
+		alert("Please load a valid card");
+		res.value = "";
 		return 0;
 	}
 	alert(`Your recharge of ${theCard.amount} was successful and your new account balance is ${userss.balance[bal]}`)
 	theCard.loaded = true;
+	res.value = "";
 	localStorage.allVouchers = JSON.stringify(allVouchers);
 	localStorage.userss = JSON.stringify(userss)
 }

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Voucher</title>
+	<title>Phone</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<!-- <link rel="stylesheet" href="../bootstrap-4.6.0-dist/css/bootstrap.css"> -->
@@ -10,9 +10,18 @@
 </head>
 <body>
 
+	<section class="d-flex">
+
 	<section id="phoneBody" ondblclick="wake()">
 		<div id="powerButton" onclick="wake()"></div>
 		<section id="awake">
+			<div class="position-absolute" id="signals">
+				<img src="./Assets/whiteSignal1.png" alt="">
+				<img src="./Assets/whiteSignal1.png" alt="">
+				<img src="./Assets/whiteSignal1.png" alt="">
+				<img src="./Assets/whiteSignal1.png" alt="">
+				<img src="./Assets/whitebattery.png" alt="Battery">
+			</div>
 			<p id="times"></p>
 			<div id="voucherGen" onclick="voucherFunc()"></div>
 			<div id="phoneBook" onclick="load()"><img src="./Assets/phone.png" alt="Call"></div>
@@ -68,9 +77,11 @@
 				<section id="callInterface">
 					<p id="userPix"><img src="./Assets/maleuser.png" alt=""></p>
 					<p id="callSim"></p>
-					<div id="displayCounter"><span id="hr">00 : </span><span id="min">00 : </span><span id="sec">00</span></div>
-					<div id="allOtherDetails"></div>
-					<p id="disconnectCall" onclick="dropCall()"><img src="./Assets/phone.png" alt="disconnect"></p>
+					<section id="picksTheCall">
+						<div id="displayCounter"><span id="hr">00 : </span><span id="min">00 : </span><span id="sec">00</span></div>
+						<div id="allOtherDetails"></div>
+						<p id="disconnectCall" onclick="dropCall()"><img src="./Assets/phone.png" alt="disconnect"></p>
+					</section>
 				</section>
 			</section>
 			<div id="disNet"></div>
@@ -79,10 +90,27 @@
 			<img id="backBtn" onclick="backs()" src="./Assets/backBtn.ico" alt="back">
 		</div>
 	</section>
-	
-	<div id="showAlerts">
-		<!-- sdjks -->
-	</div>
+
+
+	<section id="phoneBody2" class="ml-5">
+		<div id="powerButton2"></div>
+			<div class="position-absolute" id="signals">
+				<img src="./Assets/whiteSignal1.png" alt="">
+				<img src="./Assets/whiteSignal1.png" alt="">
+				<img src="./Assets/whiteSignal1.png" alt="">
+				<img src="./Assets/whiteSignal1.png" alt="">
+				<img src="./Assets/whitebattery.png" alt="Battery">
+			</div>
+				<section id="callInterface2">
+					<p id="userPix" class="centralize position-relative d-block"><img src="./Assets/maleuser.png" alt=""></p>
+					<p class="d-block text-center number">08135654346</p>
+					<!-- <div id="displayCounter" class="d-none"><span id="hr">00 : </span><span id="min">00 : </span><span id="sec">00</span></div> -->
+					<p id="rejectCall" onclick="rejectsCall()" class=""> <img class="callImg" src="./Assets/phone.png" alt="disconnect"></p>
+					<p id="testPick"></p>
+				</section>
+	</section>
+
+	</section>
 
 
 	<!-- Button trigger modal -->
@@ -116,3 +144,5 @@
 
 </body>
 </html>
+
+<!-- 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 -->
